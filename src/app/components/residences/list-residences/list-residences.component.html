@@ -1,8 +1,0 @@
-
-<span *ngFor="let residence of residencesShotguns | keyvalue">
-    <h2>Shotguns pour la résidence {{ residence.key }} :</h2>
-    <p *ngIf="!residence.value || residence.value.length === 0">Cette residence est entièrement disponible</p>
-    <span *ngIf="residence.value && residence.value.length > 0">
-      <app-shotguns [listeShotguns]="residence.value"></app-shotguns>
-    </span>
-</span>
