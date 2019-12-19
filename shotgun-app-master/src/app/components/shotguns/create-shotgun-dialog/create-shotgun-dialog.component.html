@@ -20,6 +20,7 @@
         [matDatepicker]="shotgunDatepicker"
         [matDatepickerFilter]="dateFilter"
         formControlName="shotgunDate"
+        (dateChange)="checkDate($event.value)"
       />
       <mat-datepicker-toggle
         matSuffix
@@ -39,10 +40,11 @@
     <mat-autocomplete
       #autoPc="matAutocomplete"
       [displayWith]="getShotgunPlaceName.bind(this)"
+      (optionSelected)="getPlace($event.option.value)"
     >
       <mat-option *ngFor="let pc of partiesCommunesList" [value]="pc.id"
         >{{ pc.name }} ({{ pc.localisation.name }})</mat-option
-      >
+        >
     </mat-autocomplete>
     <mat-form-field>
       <input
@@ -58,6 +60,7 @@
       required
       placeholder="Famille"
       [displayWith]="getFamilleName.bind(this)"
+      (optionSelected)="getFam($event.option.value)"
     >
       <mat-option
         *ngFor="let famille of famillesList"

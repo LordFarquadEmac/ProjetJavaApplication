@@ -20,6 +20,14 @@ export class ShotgunRoutes {
     public static CREATE_SHOTGUN() {
         return ShotgunRoutes.BASE_SHOTGUN_URL();
     }
+
+    public static GET_DATE_DISPO_PC(id: number){
+        return `${ShotgunRoutes.BASE_SHOTGUN_URL()}/Date_pc/${id}`;
+    }
+
+    public static GET_DATE_DISPO_FAM(id: number){
+        return `${ShotgunRoutes.BASE_SHOTGUN_URL()}/Date_fam/${id}`;
+    }
 }
 
 export class FamilleRoutes {
@@ -33,7 +41,12 @@ export class FamilleRoutes {
 
     public static GET_FAMILLES_SHOTGUNS() {
       return `${FamilleRoutes.BASE_FAMILLE_URL()}/shotguns`;
-  }
+    }
+
+    public static GET_FAMILLES_DISPO(date: Date) {
+        return `${FamilleRoutes.BASE_FAMILLE_URL()}/familleDispo/${date}`;
+    }
+
 }
 
 export class PartieCommunesRoutes {
@@ -46,8 +59,11 @@ export class PartieCommunesRoutes {
     }
 
     public static GET_PARTIES_COMMUNES_SHOTGUNS() {
-      return `${this.GET_PARTIES_COMMUNES()}/shotguns`;
-  }
+        return `${this.GET_PARTIES_COMMUNES()}/shotguns`;
+    }
+    public static GET_PARTIES_COMMUNES_DISPO(date: Date){
+        return `${PartieCommunesRoutes.BASE_PARTIE_COMMUNES_URL()}/PartiesCommunesDispo/${date}`;
+     }
 }
 
 export class ResidenceRoutes {

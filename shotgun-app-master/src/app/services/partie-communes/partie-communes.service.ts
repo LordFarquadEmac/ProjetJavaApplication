@@ -33,4 +33,12 @@ export class PartieCommunesService {
         this._PartiesCommunes.next(values);
       });
   }
+
+  public getPartiesCommunesDispo(date: Date): void {
+    this.httpClient
+    .get(PartieCommunesRoutes.GET_PARTIES_COMMUNES_DISPO(date))
+    .subscribe((values: Array<PartieCommune>) => {
+      this._PartiesCommunes.next(values);
+    });
+  }
 }

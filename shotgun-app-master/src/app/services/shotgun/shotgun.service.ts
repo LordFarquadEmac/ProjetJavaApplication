@@ -11,9 +11,26 @@ export class ShotgunService {
   private _ShotgunsList: BehaviorSubject<Array<Shotgun>> = new BehaviorSubject(
     []
   );
+
   public shotgunsList: Observable<
     Array<Shotgun>
   > = this._ShotgunsList.asObservable();
+
+  private _DateShotgunpcList: BehaviorSubject<Array<string>> = new BehaviorSubject(
+    []
+  );
+
+  public dateShotgunpcList: Observable<
+  Array<string>
+  > = this._DateShotgunpcList.asObservable();
+
+  private _DateShotgunfamList: BehaviorSubject<Array<string>> = new BehaviorSubject(
+    []
+  );
+
+  public dateShotgunfamList: Observable<
+  Array<string>
+  > = this._DateShotgunfamList.asObservable();
 
   private _SelectedShotgun: BehaviorSubject<Shotgun> = new BehaviorSubject(
     null
@@ -45,5 +62,21 @@ export class ShotgunService {
       ShotgunRoutes.CREATE_SHOTGUN(),
       shotgunToCreate
     );
+  }
+
+  public getDateshotgunpc(id: number){
+    this.httpClient
+      .get<Array<string>>(ShotgunRoutes.GET_DATE_DISPO_PC(id))
+      .subscribe((values: Array<string>) => {
+        this._DateShotgunpcList.next(values);
+      });
+  }
+
+  public getDateShotgunfam(id: number){
+    this.httpClient
+      .get<Array<string>>(ShotgunRoutes.GET_DATE_DISPO_FAM(id))
+      .subscribe((values: Array<string>) => {
+        this._DateShotgunfamList.next(values);
+      });
   }
 }

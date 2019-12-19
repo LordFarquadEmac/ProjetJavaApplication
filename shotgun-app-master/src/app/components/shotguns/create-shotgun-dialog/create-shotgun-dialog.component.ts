@@ -8,6 +8,8 @@ import { PartieCommunesService } from "../../../services/partie-communes/partie-
 import { PartieCommune } from "../../../model/partie-commune.model";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
+import { not } from '@angular/compiler/src/output/output_ast';
+import * as moment from 'moment';
 
 @Component({
   selector: "app-create-shotgun-dialog",
@@ -18,11 +20,13 @@ export class CreateShotgunDialogComponent implements OnInit {
   public famillesList: Array<Famille> = [];
   public partiesCommunesList: Array<PartieCommune> = [];
   public shotgunForm: FormGroup;
+  public DateShotgunpc: Array<string>;
+  public DateShotgunfam: Array<String>;
 
-  dateFilter = (date: Date) => {
+  dateFilter = (date: moment.Moment) => {
     const todayDate: Date = new Date();
     todayDate.setHours(0, 0, 0, 0);
-    return date >= todayDate;
+    return (date >= moment(todayDate)) && (this.DateShotgunpc.indexOf(date.toISOString().substr(0, 23)+"+0000")===-1) && (this.DateShotgunfam.indexOf(date.toISOString().substr(0, 23)+"+0000")===-1);
   }
 
   constructor(
@@ -33,15 +37,23 @@ export class CreateShotgunDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CreateShotgunDialogComponent>
   ) {
-    this.familleService.famillesList.subscribe((values: Array<Famille>) => {
-      this.famillesList = values;
+    this.shotgunService.dateShotgunpcList.subscribe((values: Array<string>) => {
+      this.DateShotgunpc = values;
     });
+
+    this.shotgunService.dateShotgunfamList.subscribe((values: Array<string>) => {
+      this.DateShotgunfam = values;
+    });
+
 
     this.partiesCommunesService.partiesCommunes.subscribe(
       (values: Array<PartieCommune>) => {
         this.partiesCommunesList = values;
-      }
-    );
+      });
+
+    this.familleService.famillesList.subscribe((values: Array<Famille>) => {
+      this.famillesList = values;
+    });
 
     this.shotgunForm = this.formBuilder.group({
       name: ["", Validators.required],
@@ -92,5 +104,19 @@ export class CreateShotgunDialogComponent implements OnInit {
         this.dialogRef.close();
       }
     );
+  }
+
+  checkDate(date: Date){
+    this.familleService.getFamilleDispo(date)
+    this.partiesCommunesService.getPartiesCommunesDispo(date)
+  }
+
+  getPlace(id: number){
+    this.shotgunService.getDateshotgunpc(id)
+    console.log(this.DateShotgunpc);
+  }
+
+  getFam(id: number){
+    this.shotgunService.getDateShotgunfam(id)
   }
 }

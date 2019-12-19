@@ -33,4 +33,12 @@ export class FamilleService {
         this._FamillesList.next(values);
       });
   }
+
+  public getFamilleDispo(date: Date): void {
+    this.httpClient
+    .get(FamilleRoutes.GET_FAMILLES_DISPO(date))
+    .subscribe((values: Array<Famille>) => {
+      this._FamillesList.next(values);
+    });
+  }
 }
